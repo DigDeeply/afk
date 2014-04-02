@@ -13,9 +13,9 @@ dnl [  --with-afk             Include afk support])
 
 dnl Otherwise use enable:
 
-dnl PHP_ARG_ENABLE(afk, whether to enable afk support,
-dnl Make sure that the comment is aligned:
-dnl [  --enable-afk           Enable afk support])
+PHP_ARG_ENABLE(afk, whether to enable afk support,
+Make sure that the comment is aligned:
+[  --enable-afk           Enable afk support])
 
 if test "$PHP_AFK" != "no"; then
   dnl Write more examples of tests here...
