@@ -102,6 +102,8 @@ PHP_MINIT_FUNCTION(afk)
 	INIT_CLASS_ENTRY(ce, "afk_app", afk_app_method);
 	afk_app_ce = zend_register_internal_class(&ce TSRMLS_CC);
 
+
+
 	return SUCCESS;
 }
 /* }}} */
