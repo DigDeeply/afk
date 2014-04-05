@@ -103,7 +103,6 @@ PHP_MINIT_FUNCTION(afk)
 	afk_app_ce = zend_register_internal_class(&ce TSRMLS_CC);
 
 
-
 	return SUCCESS;
 }
 /* }}} */

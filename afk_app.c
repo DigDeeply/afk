@@ -9,6 +9,7 @@
 
 #define HTTP_CONTRONLLER_PARAM "c"
 #define HTTP_ACTION_PARAM "a"
+#define APP_DIR "app"
 
 zend_class_entry *afk_app_ce;
 
@@ -33,6 +34,21 @@ ZEND_METHOD(afk_app, run){
 		}
 	}
 	//寻找对应的Controller和action方法所在的文件。
+	char *controller_path;
+	spprintf(&controller_path, 0, "%s/controller/%s.php", APP_DIR, c);
+	FILE *fp;
+	php_printf("%s", controller_path);
+	if( (fp = fopen(controller_path, "r")) != NULL){
+		fclose(fp);
+		int dummy = 1;
+		controller_path = "/home/s/www/fukun/clang/php-5.2.6/ext/afk/app/controller/index.php";
+		zend_hash_add(&EG(included_files), controller_path, strlen(controller_path)+1, (void *)&dummy, sizeof(int), NULL);
+	}else{
+		char *error;
+		spprintf(&error, 0, "cann't find file %s", controller_path);
+		zend_error(1, error);
+	}
+	RETURN_BOOL(1);
 }
 
 zend_function_entry afk_app_method[] = {
