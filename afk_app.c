@@ -36,18 +36,47 @@ ZEND_METHOD(afk_app, run){
 	//寻找对应的Controller和action方法所在的文件。
 	char *controller_path;
 	spprintf(&controller_path, 0, "%s/controller/%s.php", APP_DIR, c);
+
 	FILE *fp;
-	php_printf("%s", controller_path);
+	php_printf("%s\n", controller_path);
+	//文件存在则引入该文件。不存在则报错。
 	if( (fp = fopen(controller_path, "r")) != NULL){
 		fclose(fp);
 		int dummy = 1;
-		controller_path = "/home/s/www/fukun/clang/php-5.2.6/ext/afk/app/controller/index.php";
-		zend_hash_add(&EG(included_files), controller_path, strlen(controller_path)+1, (void *)&dummy, sizeof(int), NULL);
+
+		zend_file_handle file_handle;
+		zend_op_array *op_array;
+
+		file_handle.filename = controller_path;
+		file_handle.free_filename = 0;
+		file_handle.type = ZEND_HANDLE_FILENAME;
+		file_handle.opened_path = NULL;
+		file_handle.handle.fp = NULL;
+
+		op_array = zend_compile_file(&file_handle, ZEND_INCLUDE TSRMLS_CC);
+		if (op_array && file_handle.handle.stream.handle) {
+			int dummy = 1;         
+
+			if (!file_handle.opened_path) {
+				file_handle.opened_path = controller_path;
+			}
+
+			php_printf("opened_path: %s\n", file_handle.opened_path);
+			zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path)+1, (void *)&dummy, sizeof(int), NULL);
+		}
+		zend_destroy_file_handle(&file_handle TSRMLS_CC);
+		destroy_op_array(op_array TSRMLS_CC);
+		efree(op_array);
 	}else{
 		char *error;
 		spprintf(&error, 0, "cann't find file %s", controller_path);
 		zend_error(1, error);
 	}
+	//dispatcher 调用分发的请求。
+	/**
+	 *在EG(class_table)查找相应的类，然后调用它的方法。
+	 */
+
 	RETURN_BOOL(1);
 }
 
