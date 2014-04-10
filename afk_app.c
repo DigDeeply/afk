@@ -77,7 +77,6 @@ ZEND_METHOD(afk_app, run){
 	 *在EG(class_table)查找相应的类，然后调用它的方法。
 	 */
 
-
 	RETURN_BOOL(1);
 }
 
