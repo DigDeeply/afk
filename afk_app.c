@@ -65,8 +65,29 @@ ZEND_METHOD(afk_app, run){
 			zend_hash_add(&EG(included_files), file_handle.opened_path, strlen(file_handle.opened_path)+1, (void *)&dummy, sizeof(int), NULL);
 		}
 		zend_destroy_file_handle(&file_handle TSRMLS_CC);
-		destroy_op_array(op_array TSRMLS_CC);
-		efree(op_array);
+		if(op_array){
+			php_printf("execute op_array \n");
+
+			//保存旧的环境变量
+			zval ** __old_return_value_pp   = EG(return_value_ptr_ptr); 
+			zend_op ** __old_opline_ptr     = EG(opline_ptr); 
+			zend_op_array * __old_op_array  = EG(active_op_array);
+			zend_function_state * __old_func_state = EG(function_state_ptr); 
+
+			//执行op_array
+			zval *result = NULL;
+			EG(return_value_ptr_ptr) = &result;
+			EG(active_op_array) = op_array;
+			zend_execute(op_array TSRMLS_CC);
+			destroy_op_array(op_array TSRMLS_CC);
+			efree(op_array);
+
+			//恢复旧的环境变量
+			EG(return_value_ptr_ptr) = __old_return_value_pp;
+			EG(opline_ptr)           = __old_opline_ptr; 
+			EG(active_op_array)      = __old_op_array; 
+			EG(function_state_ptr)   = __old_func_state;
+		}
 	}else{
 		char *error;
 		spprintf(&error, 0, "cann't find file %s", controller_path);
@@ -76,6 +97,20 @@ ZEND_METHOD(afk_app, run){
 	/**
 	 *在EG(class_table)查找相应的类，然后调用它的方法。
 	 */
+	zend_class_entry **class = NULL;
+	char  *class_name = emalloc(strlen(c)+strlen("Controller")+1);
+	class_name = strcpy(class_name, c);
+	class_name = strcat(class_name, zend_str_tolower_dup("Controller", strlen("Controller")+1)); //Notice: class name need tolower.
+	if(zend_hash_find(EG(class_table), class_name, strlen(class_name)+1, (void **)&class) != SUCCESS){
+		char *error;
+		spprintf(&error, 0, "cann't find the controller class: %s ", class_name);
+		php_printf("%s", class_name);
+		efree(class_name);
+		efree(class);
+		zend_error(1, error);
+	}
+	efree(class_name);
+
 
 	RETURN_BOOL(1);
 }
