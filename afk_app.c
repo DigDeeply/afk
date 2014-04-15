@@ -111,18 +111,20 @@ ZEND_METHOD(afk_app, run){
 	}
 	efree(class_name);
 
-	zval *obj, *function_name;
+	zval *obj, *function_name, *retval;
 	MAKE_STD_ZVAL(obj);
 	MAKE_STD_ZVAL(function_name);
+	MAKE_STD_ZVAL(retval);
 	object_init_ex(obj, *class);
 	//php_var_dump(&obj, 1 TSRMLS_CC);
 
 	ZVAL_STRINGL(function_name, "indexaction", strlen("indexaction"), 1);
-	call_user_function(&(*class)->function_table, &obj, function_name, NULL, 0, NULL TSRMLS_CC);
+	call_user_function(&((*class)->function_table), &obj, function_name, retval, 0, NULL TSRMLS_CC);
 
 	zval_ptr_dtor(&obj);
 	zval_ptr_dtor(&function_name);
-	efree(class);
+	zval_ptr_dtor(&retval);
+	//efree(class);
 
 	RETURN_BOOL(1);
 }
