@@ -101,7 +101,7 @@ ZEND_METHOD(afk_app, run){
 	char  *class_name = emalloc(strlen(c)+strlen("Controller")+1);
 	class_name = strcpy(class_name, c);
 	class_name = strcat(class_name, zend_str_tolower_dup("Controller", strlen("Controller")+1)); //Notice: class name need tolower.
-	if(zend_hash_find(EG(class_table), class_name, strlen(class_name)+1, (void **)&class) != SUCCESS){
+	if(zend_hash_find(EG(class_table), class_name, strlen(class_name)+1, (void *)&class) != SUCCESS){
 		char *error;
 		spprintf(&error, 0, "cann't find the controller class: %s ", class_name);
 		php_printf("%s", class_name);
@@ -111,6 +111,18 @@ ZEND_METHOD(afk_app, run){
 	}
 	efree(class_name);
 
+	zval *obj, *function_name;
+	MAKE_STD_ZVAL(obj);
+	MAKE_STD_ZVAL(function_name);
+	object_init_ex(obj, *class);
+	//php_var_dump(&obj, 1 TSRMLS_CC);
+
+	ZVAL_STRINGL(function_name, "indexaction", strlen("indexaction"), 1);
+	call_user_function(&(*class)->function_table, &obj, function_name, NULL, 0, NULL TSRMLS_CC);
+
+	zval_ptr_dtor(&obj);
+	zval_ptr_dtor(&function_name);
+	efree(class);
 
 	RETURN_BOOL(1);
 }

@@ -24,7 +24,7 @@ $app = new afk_app();
 $app->run();
 
 //include("app/controller/index.php");
-$c = new indexController();
-$c->indexAction();
-$c->testAction();
+//$c = new indexController();
+//$c->indexAction();
+//$c->testAction();
 ?>
