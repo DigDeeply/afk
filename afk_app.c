@@ -16,7 +16,7 @@ zend_class_entry *afk_app_ce;
 ZEND_BEGIN_ARG_INFO_EX(afk_app_run_arginfo, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_METHOD(afk_app, run){
+ZEND_METHOD(afk_app, run){/*{{{*/
 	zval **uri;
 	char *c=NULL, *a=NULL;
 	zval *arr = PG(http_globals)[TRACK_VARS_GET];
@@ -127,7 +127,7 @@ ZEND_METHOD(afk_app, run){
 	//efree(class);
 
 	RETURN_BOOL(1);
-}
+}/*}}}*/
 
 zend_function_entry afk_app_method[] = {
 	ZEND_ME(afk_app,    run,  afk_app_run_arginfo,   ZEND_ACC_PUBLIC)

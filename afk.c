@@ -28,6 +28,7 @@
 #include "php_afk.h"
 
 #include "afk_app.c"
+#include "afk_view.c"
 
 /* If you declare any globals in php_afk.h uncomment this:
 ZEND_DECLARE_MODULE_GLOBALS(afk)
@@ -101,6 +102,8 @@ PHP_MINIT_FUNCTION(afk)
 	zend_class_entry ce;
 	INIT_CLASS_ENTRY(ce, "afk_app", afk_app_method);
 	afk_app_ce = zend_register_internal_class(&ce TSRMLS_CC);
+	INIT_CLASS_ENTRY(ce, "afk_view", afk_view_method);
+	afk_view_ce = zend_register_internal_class(&ce TSRMLS_CC);
 
 	return SUCCESS;
 }
