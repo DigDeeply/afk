@@ -23,6 +23,7 @@ ZEND_METHOD(afk_view, display){/*{{{*/
 	if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "s|a", &tpl, &tpl_len, &vars) == FAILURE) {
 		return;
 	}
+
 	php_printf("%s\n", tpl);
 	php_var_dump(&vars, 1 TSRMLS_CC);
 
