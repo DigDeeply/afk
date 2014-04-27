@@ -27,6 +27,7 @@ ZEND_METHOD(afk_view, display){/*{{{*/
 	php_printf("%s\n", tpl);
 	php_var_dump(&vars, 1 TSRMLS_CC);
 
+
 	RETURN_BOOL(1);
 }/*}}}*/
 
