@@ -24,7 +24,7 @@ $app = new afk_app();
 $app->run();
 
 $view = new afk_view();
-$view->display('index', array('a'=>'b'));
+$view->display('index', array('a'=>'b', 'b'=>'hello', 'c'=>'world'));
 
 //include("app/controller/index.php");
 //$c = new indexController();
