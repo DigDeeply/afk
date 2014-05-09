@@ -38,7 +38,7 @@ ZEND_METHOD(afk_app, run){/*{{{*/
 	spprintf(&controller_path, 0, "%s/controller/%s.php", APP_DIR, c);
 
 	FILE *fp;
-	php_printf("%s\n", controller_path);
+	//php_printf("%s\n", controller_path);
 	//文件存在则引入该文件。不存在则报错。
 	if( (fp = fopen(controller_path, "r")) != NULL){
 		fclose(fp);
