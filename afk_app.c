@@ -94,7 +94,6 @@ ZEND_METHOD(afk_app, run){/*{{{*/
 		spprintf(&error, 0, "cann't find file %s", controller_path);
 		zend_error(1, error);
 	}
-
 	//dispatcher 调用分发的请求。
 	/**
 	 *在EG(class_table)查找相应的类，然后调用它的方法。
