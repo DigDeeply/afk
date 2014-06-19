@@ -153,6 +153,7 @@ PHP_MINFO_FUNCTION(afk)
 /* }}} */
 
 
+
 /* Remove the following function when you have succesfully modified config.m4
    so that your module can be compiled into PHP, it exists only for testing
    purposes. */
