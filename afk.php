@@ -1,6 +1,7 @@
 <?php
 $br = (php_sapi_name() == "cli")? "":"<br>";
 
+
 if(!extension_loaded('afk')) {
 	dl('afk.' . PHP_SHLIB_SUFFIX);
 }
