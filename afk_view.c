@@ -60,7 +60,7 @@ ZEND_METHOD(afk_view, display){/*{{{*/
 		}
 		zend_destroy_file_handle(&file_handle TSRMLS_CC);
 		if(op_array){
-			php_printf("execute op_array \n");
+			//php_printf("execute op_array \n");
 
 			//保存旧的环境变量
 			zval ** __old_return_value_pp   = EG(return_value_ptr_ptr); 
