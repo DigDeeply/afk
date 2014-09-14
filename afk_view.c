@@ -47,8 +47,15 @@ ZEND_METHOD(afk_view, display){/*{{{*/
 		file_handle.opened_path = NULL;
 		file_handle.handle.fp = NULL;
 
-		op_array = zend_compile_file(&file_handle, ZEND_INCLUDE TSRMLS_CC);
-		if (op_array && file_handle.handle.stream.handle) {
+		zval teststring;
+		teststring.type = IS_STRING;
+		teststring.value.str.len = strlen("echo 321;");
+		teststring.value.str.val = estrndup("echo 321;", teststring.value.str.len);
+		//op_array = zend_compile_file(&file_handle, ZEND_INCLUDE TSRMLS_CC);
+		char *eval_desc = zend_make_compiled_string_description("eval()'d code" TSRMLS_CC);
+		op_array = zend_compile_string(&teststring, eval_desc TSRMLS_CC);
+		efree(eval_desc);
+		if (0 && op_array && file_handle.handle.stream.handle) {
 			int dummy = 1;         
 
 			if (!file_handle.opened_path) {
