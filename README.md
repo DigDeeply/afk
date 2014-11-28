@@ -10,7 +10,9 @@ document tree:
 app
 	|
 	|-controller
-	|
+	|		|
+	|		|-index.php
 	|-view
+	|
 
 
