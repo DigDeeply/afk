@@ -13,6 +13,9 @@ app
 	|		|
 	|		|-index.php
 	|-view
+	|	|
+	|   |-index
+	|
 	|
 
 
