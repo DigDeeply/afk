@@ -15,6 +15,7 @@ app
 	|-view
 	|	|
 	|   |-index
+	|	|
 	|
 	|
 
